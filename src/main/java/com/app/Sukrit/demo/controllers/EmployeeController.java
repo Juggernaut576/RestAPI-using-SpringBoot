@@ -6,26 +6,27 @@ package com.app.Sukrit.demo.controllers;
 //DELETE /employees/{id}
 
 import com.app.Sukrit.demo.dto.EmployeeDTO;
-import jakarta.websocket.server.PathParam;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDate;
+import com.app.Sukrit.demo.services.EmployeeService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(path = "/employees")
 public class EmployeeController {
 
-    @GetMapping(path = "/employees/{id}")
-    public EmployeeDTO getEmployees(@PathVariable("id") Long employeeId)
-    {
-        return new EmployeeDTO(employeeId,"Anuj",LocalDate.of(2024,1,2),true);
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
-    @GetMapping(path ="/employees")
-    public String getData(@PathParam("sortBy") String sortBy)
+    @GetMapping(path = "/{id}")
+    public EmployeeDTO getEmployeeById(@PathVariable("id") Long employeeId)
     {
-      return "Hello" + sortBy;
+        return employeeService.getEmployeeById(employeeId);
+    }
+
+    @PostMapping
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createNewEmployee(employeeDTO);
     }
 }

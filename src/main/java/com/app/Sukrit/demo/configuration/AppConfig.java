@@ -3,6 +3,7 @@ package com.app.Sukrit.demo.configuration;
 import com.app.Sukrit.demo.DB;
 import com.app.Sukrit.demo.DevDB;
 import com.app.Sukrit.demo.ProdDB;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
@@ -22,5 +23,11 @@ public class AppConfig {
     @ConditionalOnProperty(name = "project.mode", havingValue = "production")
     public DB getProdDBBean(){
        return new ProdDB();
+    }
+
+    @Bean
+    public ModelMapper getModelMapper()
+    {
+        return new ModelMapper();
     }
 }
